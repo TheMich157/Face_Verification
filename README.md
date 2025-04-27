@@ -1,0 +1,163 @@
+# Advanced Discord Age Verification Bot
+
+A comprehensive Discord bot providing secure age verification with advanced features including age-based roles, profanity control, appeals system, and extensive privacy controls.
+
+## Core Features
+
+### Privacy and Consent System
+- Clear privacy policy and data handling
+- Explicit user consent management
+- Data deletion requests
+- Transparent data storage
+- User data rights management
+
+### Age Verification System
+- Multi-tier age verification (13+ and 18+)
+- Face detection using OpenCV and dlib
+- Staff review system
+- Automatic age estimation
+- Anti-spoofing measures
+
+### Administrator Controls
+- Enable/disable verification systems
+- Clear verification queues
+- View system status
+- Configuration management
+
+### Age-Based Privileges
+- **18+ Role**
+  - Full server access
+  - Strong profanity allowed
+  - Age-restricted channels
+- **13+ Role**
+  - Standard access
+  - Moderate profanity
+  - Age-appropriate content
+
+## Commands
+
+### Privacy Commands
+- `/privacy` - View the complete privacy policy
+- `/delete_data` - Request deletion of your verification data
+- `/data_info` - View what data is stored about you
+- `/consent_status` - Check your current consent status
+
+### User Commands
+- `/verify` - Start verification process
+- `/help` - Show help information
+- `/appeal` - Submit verification appeal
+
+### Administrator Commands
+- `/verification <age_type> <state> [reason]` - Enable/disable verification
+- `/verification_status` - Check system status
+- `/clear_verification_queue` - Clear pending verifications
+- `/verification_config` - View configuration
+
+### Staff Commands
+- `/pending_reviews` - View pending reviews
+- `/view_verification <user>` - Review specific user
+- `/review <user> <is_underage>` - Process verification
+- `/18approve <user> <approved>` - Grant 18+ status
+
+## Privacy Features
+
+### Data Collection
+- Clear user consent required
+- Transparent data handling
+- Secure storage of media
+- Automatic data cleanup
+
+### User Rights
+- Data deletion requests
+- Access to stored information
+- Consent withdrawal
+- Privacy policy access
+
+### Security Measures
+- Encrypted storage
+- Limited staff access
+- Audit logging
+- Regular data cleanup
+
+## Setup Instructions
+
+1. **Prerequisites**
+   - Python 3.8 or higher
+   - Discord Bot Token
+   - SQLite (included with Python)
+
+2. **Installation**
+   ```bash
+   # Clone the repository
+   git clone <repository-url>
+   cd discord-age-verify-bot
+
+   # Create and activate virtual environment
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+   # Install dependencies
+   pip install -r requirements.txt
+   ```
+
+3. **Configuration**
+   Configure `config/config.json` with:
+   - Bot token
+   - Privacy settings
+   - Age verification settings
+   - Role configurations
+   - Channel settings
+
+## Verification Process
+
+1. Initial Contact:
+   - User receives privacy notice
+   - Clear explanation of data collection
+   - Request for explicit consent
+
+2. Consent and Verification:
+   - User reviews privacy policy
+   - Provides explicit consent
+   - Submits verification media
+
+3. Data Handling:
+   - Secure storage of submission
+   - Staff review if needed
+   - Automatic deletion after verification
+
+4. User Control:
+   - Access to stored data
+   - Deletion requests
+   - Consent management
+
+## Privacy Policy
+
+The bot includes a comprehensive privacy policy covering:
+- Data collection and usage
+- Storage and security
+- User rights and consent
+- Data retention
+- Deletion procedures
+
+See PRIVACY_POLICY.md for complete details.
+
+## Security Features
+
+- Local face detection
+- Encrypted storage
+- Consent tracking
+- Access controls
+- Audit logging
+- Automatic cleanup
+
+## Support
+
+For issues or questions:
+1. Check error logs
+2. Review privacy policy
+3. Contact administrator
+4. Submit support ticket
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
