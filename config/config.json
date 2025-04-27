@@ -8,62 +8,46 @@
         "review_timeout_minutes": 5,
         "media_retention_days": 30,
         "welcome_message": "Welcome to the server! Before proceeding with verification, please read our privacy policy and data handling information below.",
-        "privacy_notice": {
-            "initial_message": [
-                "📋 **Age Verification Privacy Notice**",
-                "",
-                "Before proceeding with verification, please understand how we handle your data:",
-                "",
-                "**Data Collection:**",
-                "• We collect photos/videos for age verification only",
-                "• Your submission will be encrypted and securely stored",
-                "• Data is automatically deleted after verification (max 30 days)",
-                "",
-                "**Your Rights:**",
-                "• Verification is optional - you can leave if you don't want to verify",
-                "• You can request data deletion at any time",
-                "• You have full control over your data",
-                "",
-                "**Our Commitments:**",
-                "• We never share your data with third parties",
-                "• We don't use your photos/videos for anything else",
-                "• We maintain strict security standards",
-                "",
-                "Type `/verify` to begin the process, or `/privacy` to read our full privacy policy."
-            ],
-            "consent_message": [
-                "🔐 **Verification Consent**",
-                "",
-                "By proceeding with verification, you agree that:",
-                "1. You consent to providing a photo/video for age verification",
-                "2. You understand staff may review your submission",
-                "3. Your data will be securely stored and then deleted",
-                "4. You have read and accept our privacy policy",
-                "",
-                "React with ✅ to agree and continue, or ❌ to cancel."
-            ],
-            "instructions_message": [
-                "📸 **Verification Instructions**",
-                "",
-                "Please submit ONE of the following:",
-                "• A clear photo of your face",
-                "• A short video showing your face",
-                "",
-                "Requirements:",
-                "• Good lighting",
-                "• Clear view of face",
-                "• No filters or editing",
-                "",
-                "Your submission will be:",
-                "1. Automatically analyzed for age estimation",
-                "2. Reviewed by staff if necessary",
-                "3. Securely deleted after verification",
-                "",
-                "You can cancel at any time by typing 'cancel'."
-            ]
-        },
         "auto_kick_unverified_days": 7,
         "verification_appeal_cooldown_days": 30
+    },
+    "queue_management": {
+        "max_queue_size": 100,
+        "priority_users_limit": 10,
+        "staff_max_workload": 5,
+        "queue_update_interval_minutes": 5,
+        "estimated_review_time_minutes": 15,
+        "high_volume_threshold": 20,
+        "auto_staff_notification": true
+    },
+    "staff_training": {
+        "required_modules": [
+            "Age Verification Guidelines",
+            "Privacy and Data Handling",
+            "Decision Making Process",
+            "Handling Edge Cases"
+        ],
+        "refresh_interval_days": 30,
+        "minimum_accuracy": 90,
+        "probation_threshold": 75,
+        "training_completion_role": "trained_staff"
+    },
+    "analytics": {
+        "track_peak_hours": true,
+        "track_verification_patterns": true,
+        "track_staff_performance": true,
+        "generate_reports": true,
+        "report_interval_days": 7,
+        "performance_metrics": {
+            "speed": 0.3,
+            "accuracy": 0.4,
+            "consistency": 0.3
+        },
+        "alert_thresholds": {
+            "queue_length": 50,
+            "wait_time_minutes": 60,
+            "staff_accuracy": 80
+        }
     },
     "roles": {
         "verified_18plus": "18+",
@@ -72,7 +56,9 @@
         "awaiting_review": "awaiting_staff_check",
         "staff": "staff",
         "senior_staff": "senior_staff",
-        "banned_appeals": "banned_appeals"
+        "banned_appeals": "banned_appeals",
+        "trained_staff": "trained_staff",
+        "staff_trainer": "staff_trainer"
     },
     "channels": {
         "mod_logs": "mod-logs",
@@ -81,7 +67,10 @@
         "staff_chat": "staff-chat",
         "appeals": "verification-appeals",
         "age_restricted": "18plus-chat",
-        "announcements": "announcements"
+        "announcements": "announcements",
+        "staff_training": "staff-training",
+        "analytics": "verification-analytics",
+        "queue_status": "verification-queue"
     },
     "profanity_levels": {
         "18plus": {
@@ -98,7 +87,9 @@
     "database": {
         "cleanup_interval_hours": 24,
         "backup_interval_hours": 12,
-        "encryption_enabled": true
+        "encryption_enabled": true,
+        "performance_logging": true,
+        "analytics_retention_days": 90
     },
     "moderation": {
         "ban_message": "You have been banned from the server as our staff team has determined you do not meet the minimum age requirement of 13 years old.",
@@ -135,6 +126,35 @@
         "ban_appeals": true,
         "advanced_analytics": true,
         "custom_messages": true,
-        "privacy_consent": true
+        "privacy_consent": true,
+        "staff_training": true,
+        "queue_management": true,
+        "performance_tracking": true
+    },
+    "staff_performance": {
+        "metrics": {
+            "accuracy_weight": 0.4,
+            "speed_weight": 0.3,
+            "consistency_weight": 0.3
+        },
+        "rewards": {
+            "high_performer_role": "expert_verifier",
+            "achievement_badges": true,
+            "performance_bonuses": true
+        },
+        "requirements": {
+            "minimum_reviews_per_week": 10,
+            "minimum_accuracy": 90,
+            "maximum_response_time_minutes": 30
+        }
+    },
+    "notifications": {
+        "staff_ping_threshold": 5,
+        "dm_on_verification": true,
+        "dm_on_appeal": true,
+        "dm_staff_pending": true,
+        "queue_updates": true,
+        "performance_reports": true,
+        "training_reminders": true
     }
 }
