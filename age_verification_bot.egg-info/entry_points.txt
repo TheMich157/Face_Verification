@@ -1,0 +1,2 @@
+[console_scripts]
+age-verify-bot = src.bot:main
