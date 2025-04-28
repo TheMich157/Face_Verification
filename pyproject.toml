@@ -7,6 +7,10 @@ name = "age_verification_bot"
 version = "1.0.0"
 description = "Discord Age Verification Bot"
 requires-python = ">=3.8,<3.12"
+authors = [
+    {name = "Your Name"}
+]
+readme = "README.md"
 dependencies = [
     "discord.py>=2.3.2",
     "python-dotenv>=1.0.0",
