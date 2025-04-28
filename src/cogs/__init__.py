@@ -6,31 +6,24 @@ import os
 import importlib
 import pkgutil
 
-# Import all modules in this package
-__all__ = []
-for loader, module_name, is_pkg in pkgutil.walk_packages([os.path.dirname(__file__)]):
-    __all__.append(module_name)
-    module = importlib.import_module(f"{__package__}.{module_name}")
+def init_cogs():
+    """Initialize all cogs in the package"""
+    cogs = []
+    cogs_dir = os.path.dirname(__file__)
     
+    # Import all modules in this package
+    for _, module_name, _ in pkgutil.iter_modules([cogs_dir]):
+        if not module_name.startswith('__'):
+            cogs.append(f"src.cogs.{module_name}")
+    
+    return cogs
+
 # List of available cogs for the bot to load
-AVAILABLE_COGS = [
-    'verification',
-    'admin',
-    'moderation',
-    'statistics',
-    'appeals',
-    'automod',
-    'admin_control',
-    'privacy',
-    'advanced_features'
-]
+AVAILABLE_COGS = init_cogs()
 
-# Function to get full cog path
-def get_cog_path(cog_name):
-    """Get the full import path for a cog"""
-    return f"src.cogs.{cog_name}"
-
-# Function to get all cog paths
 def get_all_cog_paths():
     """Get a list of all available cog paths"""
-    return [get_cog_path(cog) for cog in AVAILABLE_COGS]
+    return AVAILABLE_COGS
+
+# Make cogs available at package level
+__all__ = ['get_all_cog_paths', 'AVAILABLE_COGS']
