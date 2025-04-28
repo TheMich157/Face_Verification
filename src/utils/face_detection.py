@@ -1,5 +1,5 @@
 import cv2
-import face_recognition
+import mediapipe as mp
 import numpy as np
 from PIL import Image
 import io
@@ -10,30 +10,55 @@ logger = logging.getLogger('age-verify-bot')
 
 class FaceDetector:
     def __init__(self):
+        # Initialize MediaPipe Face Detection
+        self.mp_face_detection = mp.solutions.face_detection
+        self.mp_face_mesh = mp.solutions.face_mesh
+        self.face_detection = self.mp_face_detection.FaceDetection(
+            model_selection=1,  # 1 for far faces, 0 for near faces
+            min_detection_confidence=0.5
+        )
+        self.face_mesh = self.mp_face_mesh.FaceMesh(
+            static_image_mode=True,
+            max_num_faces=1,
+            min_detection_confidence=0.5
+        )
+
+        # Age estimation parameters
         self.age_ranges = {
             'child': {'ratio_range': (0.75, 0.85), 'estimated_age': 10},
             'teen': {'ratio_range': (0.85, 0.95), 'estimated_age': 15},
             'adult': {'ratio_range': (0.95, 1.1), 'estimated_age': 20}
         }
-        self.min_face_size = (30, 30)
-        self.last_processed = {}
 
-    def _calculate_face_features(self, face_landmarks):
+    def _calculate_face_features(self, face_landmarks, image_shape):
         """Calculate facial features for age estimation"""
         try:
-            # Get key facial landmarks
-            nose = np.mean(face_landmarks['nose_bridge'], axis=0)
-            left_eye = np.mean(face_landmarks['left_eye'], axis=0)
-            right_eye = np.mean(face_landmarks['right_eye'], axis=0)
-            top_lip = np.mean(face_landmarks['top_lip'], axis=0)
-            bottom_lip = np.mean(face_landmarks['bottom_lip'], axis=0)
-            
-            # Calculate ratios that correlate with age
+            if not face_landmarks.multi_face_landmarks:
+                return None
+
+            landmarks = face_landmarks.multi_face_landmarks[0].landmark
+            image_height, image_width = image_shape[:2]
+
+            # Convert landmarks to pixel coordinates
+            coords = [(int(point.x * image_width), int(point.y * image_height)) 
+                     for point in landmarks]
+
+            # Calculate key facial measurements
+            # Eyes distance (horizontal)
+            left_eye = np.mean([coords[33], coords[133]], axis=0)  # Left eye center
+            right_eye = np.mean([coords[362], coords[263]], axis=0)  # Right eye center
             eye_distance = np.linalg.norm(left_eye - right_eye)
-            face_height = np.linalg.norm(nose - np.mean([top_lip, bottom_lip], axis=0))
+
+            # Face height (vertical)
+            nose_bridge = coords[168]  # Nose bridge point
+            chin = coords[152]  # Chin point
+            face_height = np.linalg.norm(np.array(nose_bridge) - np.array(chin))
+
+            # Calculate ratio
             face_ratio = eye_distance / face_height if face_height > 0 else 0
-            
+
             return face_ratio
+
         except Exception as e:
             logger.error(f"Error calculating face features: {e}")
             return None
@@ -67,21 +92,21 @@ class FaceDetector:
             if img is None:
                 return None, "Failed to load image"
 
-            # Convert to RGB for face_recognition
+            # Convert to RGB for MediaPipe
             rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            # Detect faces
-            face_locations = face_recognition.face_locations(rgb_img)
-            if not face_locations:
+            # Detect face
+            face_detection_results = self.face_detection.process(rgb_img)
+            if not face_detection_results.detections:
                 return None, "No face detected in the image"
 
             # Get facial landmarks
-            face_landmarks_list = face_recognition.face_landmarks(rgb_img, face_locations)
-            if not face_landmarks_list:
+            face_mesh_results = self.face_mesh.process(rgb_img)
+            if not face_mesh_results.multi_face_landmarks:
                 return None, "Could not detect facial features"
 
             # Calculate facial features and estimate age
-            face_ratio = self._calculate_face_features(face_landmarks_list[0])
+            face_ratio = self._calculate_face_features(face_mesh_results, img.shape)
             estimated_age = self._estimate_age_from_ratio(face_ratio)
 
             if estimated_age is None:
@@ -119,12 +144,12 @@ class FaceDetector:
                     # Convert to RGB
                     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     
-                    # Detect faces
-                    face_locations = face_recognition.face_locations(rgb_frame)
-                    if face_locations:
-                        face_landmarks_list = face_recognition.face_landmarks(rgb_frame, face_locations)
-                        if face_landmarks_list:
-                            face_ratio = self._calculate_face_features(face_landmarks_list[0])
+                    # Detect face and get landmarks
+                    face_detection_results = self.face_detection.process(rgb_frame)
+                    if face_detection_results.detections:
+                        face_mesh_results = self.face_mesh.process(rgb_frame)
+                        if face_mesh_results.multi_face_landmarks:
+                            face_ratio = self._calculate_face_features(face_mesh_results, frame.shape)
                             estimated_age = self._estimate_age_from_ratio(face_ratio)
                             if estimated_age is not None:
                                 age_estimates.append(estimated_age)
@@ -162,17 +187,17 @@ class FaceDetector:
             if blur_score < 100:
                 return True, "Image too blurry - possible printed photo"
 
-            # Check face detection consistency
-            face_locations = face_recognition.face_locations(rgb_img)
-            if not face_locations:
+            # Check face detection
+            face_detection_results = self.face_detection.process(rgb_img)
+            if not face_detection_results.detections:
                 return True, "No face detected"
             
-            if len(face_locations) > 1:
+            if len(face_detection_results.detections) > 1:
                 return True, "Multiple faces detected"
 
-            # Get face encodings
-            face_encodings = face_recognition.face_encodings(rgb_img, face_locations)
-            if not face_encodings:
+            # Get face mesh for detailed analysis
+            face_mesh_results = self.face_mesh.process(rgb_img)
+            if not face_mesh_results.multi_face_landmarks:
                 return True, "Cannot extract facial features"
 
             return False, None
