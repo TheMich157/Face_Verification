@@ -1,0 +1,28 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="age_verification_bot",
+    version="1.0.0",
+    packages=find_packages(),
+    install_requires=[
+        'discord.py>=2.3.2',
+        'python-dotenv>=1.0.0',
+        'aiohttp>=3.8.5',
+        'opencv-python>=4.8.0',
+        'numpy>=1.24.3',
+        'SQLAlchemy>=2.0.21',
+        'matplotlib>=3.7.2',
+        'pandas>=2.1.0',
+        'seaborn>=0.12.2',
+        'requests>=2.31.0',
+        'python-jose>=3.3.0',
+        'cryptography>=41.0.3',
+        'typing-extensions>=4.7.1',
+        'attrs>=23.1.0'
+    ],
+    python_requires='>=3.8,<3.12',
+    author="Your Name",
+    description="Discord Age Verification Bot",
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
+)
