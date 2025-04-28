@@ -1,8 +1,11 @@
+AUTHORS
 README.md
+pyproject.toml
 setup.py
 age_verification_bot.egg-info/PKG-INFO
 age_verification_bot.egg-info/SOURCES.txt
 age_verification_bot.egg-info/dependency_links.txt
+age_verification_bot.egg-info/entry_points.txt
 age_verification_bot.egg-info/requires.txt
 age_verification_bot.egg-info/top_level.txt
 src/__init__.py
