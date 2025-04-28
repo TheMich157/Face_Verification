@@ -5,3 +5,7 @@
 2025-04-28 12:09:02,009 - discord.client - INFO - [client.py:643] - logging in using static token
 2025-04-28 12:09:02,815 - age-verify-bot - ERROR - [bot.py:57] - Error loading cogs: Extension 'cogs.verification' raised an error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (verification.py, line 27)
 2025-04-28 12:09:02,816 - age-verify-bot - CRITICAL - [bot.py:246] - Failed to start bot: Extension 'cogs.verification' raised an error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (verification.py, line 27)
+2025-04-28 12:14:03,057 - discord.client - WARNING - [client.py:318] - PyNaCl is not installed, voice will NOT be supported
+2025-04-28 12:14:03,058 - discord.client - INFO - [client.py:643] - logging in using static token
+2025-04-28 12:14:04,005 - age-verify-bot - ERROR - [bot.py:57] - Error loading cogs: Extension 'cogs.verification' raised an error: ModuleNotFoundError: No module named 'mediapipe'
+2025-04-28 12:14:04,006 - age-verify-bot - CRITICAL - [bot.py:246] - Failed to start bot: Extension 'cogs.verification' raised an error: ModuleNotFoundError: No module named 'mediapipe'
