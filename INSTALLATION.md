@@ -1,64 +1,57 @@
 # Installation Guide
 
-## Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-- git (optional, for cloning repository)
+## Quick Start (5 minutes)
 
-## Quick Installation (Windows)
+### Windows
 ```bash
 # Create and activate virtual environment
 python -m venv venv
 venv\Scripts\activate
 
-# Install required packages
+# Install dependencies
 pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-## Quick Installation (Linux/Mac)
+### Linux/Mac
 ```bash
 # Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate
 
-# Install required packages
+# Install dependencies
 pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
+## System Requirements
+
+- Python 3.8-3.11 (3.12 not yet fully supported by all dependencies)
+- 4GB RAM minimum
+- Webcam (optional, for video verification)
+
 ## Detailed Installation Steps
 
-### 1. System Requirements
+### 1. Python Setup
 
-#### Windows:
+#### Windows
+1. Download Python from [python.org](https://www.python.org/downloads/)
+2. Choose Python 3.11 for best compatibility
+3. Check "Add Python to PATH" during installation
+
+#### Linux (Ubuntu/Debian)
 ```bash
-# Install Visual Studio Build Tools (if needed)
-# Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
-# Select: Desktop development with C++
+sudo apt update
+sudo apt install python3.11 python3.11-venv python3-pip
 ```
 
-#### Linux (Ubuntu/Debian):
+#### macOS
 ```bash
-# Install required system packages
-sudo apt-get update
-sudo apt-get install -y python3-dev python3-pip
-sudo apt-get install -y cmake build-essential pkg-config
-sudo apt-get install -y libx11-dev libatlas-base-dev
-sudo apt-get install -y libgtk-3-dev libboost-python-dev
+brew install python@3.11
 ```
 
-#### macOS:
-```bash
-# Install Homebrew if needed
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+### 2. Virtual Environment
 
-# Install required packages
-brew install cmake pkg-config
-brew install python3
-```
-
-### 2. Virtual Environment Setup
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -73,95 +66,81 @@ source venv/bin/activate
 pip install --upgrade pip setuptools wheel
 ```
 
-### 3. Install Dependencies
+### 3. Dependencies Installation
 
-#### Step 1: Core Dependencies
 ```bash
-# Install basic requirements
-pip install discord.py python-dotenv SQLAlchemy
-```
+# Install core requirements
+pip install discord.py python-dotenv
 
-#### Step 2: Image Processing
-```bash
-# Install OpenCV and NumPy
-pip install opencv-python numpy
+# Install MediaPipe (face detection)
+pip install mediapipe
 
-# Install face-recognition
-pip install face-recognition
-```
-
-#### Step 3: Other Dependencies
-```bash
 # Install remaining packages
 pip install -r requirements.txt
 ```
 
-## Troubleshooting
+## Common Issues & Solutions
 
-### Common Issues
+### 1. Installation Errors
 
-#### 1. face-recognition Installation Fails
+#### "ERROR: Could not build wheels for numpy"
 ```bash
-# Windows:
-pip install cmake
-pip install face-recognition
-
-# Linux:
-sudo apt-get install cmake
-pip install face-recognition
-
-# Mac:
-brew install cmake
-pip install face-recognition
-```
-
-#### 2. OpenCV Issues
-```bash
-# Try alternative installation
-pip uninstall opencv-python
-pip install opencv-python-headless
-```
-
-#### 3. NumPy Issues
-```bash
-# Install specific version
+# Solution 1: Install numpy separately first
 pip install numpy==1.24.3
+
+# Solution 2: Use pre-built wheel
+pip install numpy --only-binary :all:
 ```
 
-#### 4. Discord.py Issues
+#### MediaPipe Installation Issues
 ```bash
-# Reinstall discord.py
-pip uninstall discord.py
-pip install discord.py==2.3.2
+# Solution 1: Install specific version
+pip install mediapipe==0.10.8
+
+# Solution 2: Install dependencies first
+pip install numpy opencv-python-headless
+pip install mediapipe
 ```
 
-### Verification Steps
-
-1. Test Python Installation:
+#### OpenCV Issues
 ```bash
-python --version  # Should be 3.8 or higher
+# If opencv-python-headless fails:
+pip uninstall opencv-python-headless
+pip install opencv-python
 ```
 
-2. Test Package Installation:
+### 2. Runtime Errors
+
+#### Import Errors
+```bash
+# Verify installation
+pip list
+
+# Reinstall problematic package
+pip uninstall package_name
+pip install package_name
+```
+
+#### Face Detection Issues
+```bash
+# Check MediaPipe installation
+python -c "import mediapipe as mp; print(mp.__version__)"
+
+# Reinstall if needed
+pip uninstall mediapipe
+pip install mediapipe==0.10.8
+```
+
+## Verification Steps
+
+1. Test Dependencies:
 ```python
-# Run Python and try imports
+# Run Python and test imports
 import discord
-import face_recognition
+import mediapipe
 import cv2
 import numpy
 ```
-
-3. Test Bot Connection:
-```bash
-# Run the bot
-python src/bot.py
-```
-
-## Post-Installation Setup
-
-1. Configure Bot Token:
-   - Open `config/config.json`
-   - Add your Discord bot token
 
 2. Test Face Detection:
 ```python
@@ -170,13 +149,32 @@ detector = FaceDetector()
 # Should initialize without errors
 ```
 
-3. Verify Database:
-   - Bot will create database automatically
-   - Check for `verification_data.db` file
+3. Test Bot:
+```bash
+python src/bot.py
+```
+
+## Configuration
+
+1. Discord Bot Token:
+   - Open `config/config.json`
+   - Add your bot token:
+     ```json
+     {
+         "bot_token": "YOUR_TOKEN_HERE"
+     }
+     ```
+
+2. Verify Permissions:
+   - Bot needs administrator permissions
+   - Or specific permissions:
+     - Manage Roles
+     - Manage Messages
+     - Send Messages
+     - etc.
 
 ## Updating
 
-To update existing installation:
 ```bash
 # Activate virtual environment
 source venv/bin/activate  # or venv\Scripts\activate on Windows
@@ -185,21 +183,38 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install --upgrade -r requirements.txt
 ```
 
-## Security Notes
+## Troubleshooting Tips
 
-- Keep virtual environment active when running bot
-- Don't share your bot token
-- Regular updates recommended
-- Monitor system resources
+1. Version Conflicts:
+   ```bash
+   pip freeze > current_requirements.txt
+   pip uninstall -r current_requirements.txt -y
+   pip install -r requirements.txt
+   ```
+
+2. Clean Installation:
+   ```bash
+   deactivate
+   rm -rf venv
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. Debug Mode:
+   ```bash
+   # Enable debug logging
+   python -m pip install --verbose -r requirements.txt
+   ```
 
 ## Support
 
 If you encounter issues:
 1. Check error messages
 2. Verify Python version
-3. Confirm all dependencies installed
-4. Review system requirements
-5. Check installation logs
+3. Review dependencies
+4. Check system requirements
+5. Consult documentation
 
 For additional help:
 - Review error logs
@@ -207,4 +222,4 @@ For additional help:
 - Verify system compatibility
 - Contact support team
 
-Remember to keep your bot token secure and never share it publicly!
+Remember: Keep your bot token secure and never share it publicly!
