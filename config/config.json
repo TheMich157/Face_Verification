@@ -1,5 +1,5 @@
 {
-    "bot_token": "YOUR_DISCORD_BOT_TOKEN",
+    "bot_token": "",
     "verification_settings": {
         "min_age": 13,
         "adult_age": 18,
@@ -8,57 +8,17 @@
         "review_timeout_minutes": 5,
         "media_retention_days": 30,
         "welcome_message": "Welcome to the server! Before proceeding with verification, please read our privacy policy and data handling information below.",
-        "auto_kick_unverified_days": 7,
-        "verification_appeal_cooldown_days": 30
-    },
-    "queue_management": {
-        "max_queue_size": 100,
-        "priority_users_limit": 10,
-        "staff_max_workload": 5,
-        "queue_update_interval_minutes": 5,
-        "estimated_review_time_minutes": 15,
-        "high_volume_threshold": 20,
-        "auto_staff_notification": true
-    },
-    "staff_training": {
-        "required_modules": [
-            "Age Verification Guidelines",
-            "Privacy and Data Handling",
-            "Decision Making Process",
-            "Handling Edge Cases"
-        ],
-        "refresh_interval_days": 30,
-        "minimum_accuracy": 90,
-        "probation_threshold": 75,
-        "training_completion_role": "trained_staff"
-    },
-    "analytics": {
-        "track_peak_hours": true,
-        "track_verification_patterns": true,
-        "track_staff_performance": true,
-        "generate_reports": true,
-        "report_interval_days": 7,
-        "performance_metrics": {
-            "speed": 0.3,
-            "accuracy": 0.4,
-            "consistency": 0.3
-        },
-        "alert_thresholds": {
-            "queue_length": 50,
-            "wait_time_minutes": 60,
-            "staff_accuracy": 80
-        }
+        "auto_kick_unverified_days": 7
     },
     "roles": {
-        "verified_18plus": "18+",
-        "verified_13plus": "13+",
-        "unverified": "unverified",
-        "awaiting_review": "awaiting_staff_check",
-        "staff": "staff",
-        "senior_staff": "senior_staff",
-        "banned_appeals": "banned_appeals",
-        "trained_staff": "trained_staff",
-        "staff_trainer": "staff_trainer"
+        "verified_18plus": "Verified 18+",
+        "verified_13plus": "Verified 13+",
+        "unverified": "Unverified",
+        "awaiting_review": "Awaiting Review",
+        "staff": "Staff",
+        "senior_staff": "Senior Staff",
+        "staff_trainer": "Staff Trainer",
+        "banned_appeals": "Banned - Appeals"
     },
     "channels": {
         "mod_logs": "mod-logs",
@@ -67,42 +27,7 @@
         "staff_chat": "staff-chat",
         "appeals": "verification-appeals",
         "age_restricted": "18plus-chat",
-        "announcements": "announcements",
-        "staff_training": "staff-training",
-        "analytics": "verification-analytics",
-        "queue_status": "verification-queue"
-    },
-    "profanity_levels": {
-        "18plus": {
-            "allowed": "strong",
-            "description": "All profanity allowed",
-            "channels": ["18plus-chat", "adult-general"]
-        },
-        "13plus": {
-            "allowed": "medium",
-            "description": "Moderate profanity allowed",
-            "channels": ["general", "chat"]
-        }
-    },
-    "database": {
-        "cleanup_interval_hours": 24,
-        "backup_interval_hours": 12,
-        "encryption_enabled": true,
-        "performance_logging": true,
-        "analytics_retention_days": 90
-    },
-    "moderation": {
-        "ban_message": "You have been banned from the server as our staff team has determined you do not meet the minimum age requirement of 13 years old.",
-        "kick_message": "You have been kicked from the server for not completing age verification within {days} days. You may rejoin and complete verification.",
-        "verification_reminder_days": [1, 3, 5],
-        "max_verification_attempts": 3,
-        "lockdown_mode": false,
-        "auto_ban_new_accounts_hours": 24,
-        "suspicious_patterns": {
-            "max_joins_per_minute": 10,
-            "max_verifications_per_ip": 2,
-            "max_failed_attempts": 3
-        }
+        "announcements": "announcements"
     },
     "privacy": {
         "data_retention_days": 30,
@@ -126,35 +51,6 @@
         "ban_appeals": true,
         "advanced_analytics": true,
         "custom_messages": true,
-        "privacy_consent": true,
-        "staff_training": true,
-        "queue_management": true,
-        "performance_tracking": true
-    },
-    "staff_performance": {
-        "metrics": {
-            "accuracy_weight": 0.4,
-            "speed_weight": 0.3,
-            "consistency_weight": 0.3
-        },
-        "rewards": {
-            "high_performer_role": "expert_verifier",
-            "achievement_badges": true,
-            "performance_bonuses": true
-        },
-        "requirements": {
-            "minimum_reviews_per_week": 10,
-            "minimum_accuracy": 90,
-            "maximum_response_time_minutes": 30
-        }
-    },
-    "notifications": {
-        "staff_ping_threshold": 5,
-        "dm_on_verification": true,
-        "dm_on_appeal": true,
-        "dm_staff_pending": true,
-        "queue_updates": true,
-        "performance_reports": true,
-        "training_reminders": true
+        "privacy_consent": true
     }
 }
